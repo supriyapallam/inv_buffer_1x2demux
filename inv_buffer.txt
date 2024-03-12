@@ -1,0 +1,34 @@
+//Design Code
+module demux1x2(output out1,out2,input sel,in);
+  assign out1=in&(~sel);
+  assign out2=in&sel;
+endmodule
+
+module not_buffer(output inv,buffer,input in);
+  wire a;
+  assign a=1'b1;
+  demux1x2 a1(inv,buffer,in,a);
+endmodule
+
+  //Test Bench Code
+  module tb();
+  wire inv,buffer;
+  reg in;
+  not_buffer DUT(inv,buffer,in);
+  initial
+    begin
+      in=1;
+      #11;
+      $finish;
+    end
+  initial
+    begin
+      $timeformat(-9,0,"ns",10);
+      $monitor("time=%0t,in=%b,inv=%b,buffer=%b",$time,in,inv,buffer);
+    end
+  initial
+    begin
+      $dumpfile("test.vcd");
+      $dumpvars(1);
+    end
+endmodule
